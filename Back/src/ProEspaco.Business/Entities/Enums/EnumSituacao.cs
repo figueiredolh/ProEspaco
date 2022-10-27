@@ -8,7 +8,9 @@ namespace ProEspaco.Business.Entities.Enums
 {
     public enum EnumSituacao
     {
-        Agendado = 0,
-        Realizado = 1,
+        Agendado = 1,
+        Remarcado = 2,
+        Cancelado = 3,
+        Realizado = 4,
     }
 }

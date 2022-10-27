@@ -11,7 +11,7 @@ namespace ProEspaco.Business.Entities
         public int Id { get; set; }
         public int ServicoId { get; set; }
         public string Nome { get; set; }
-        public double ValorAtual { get; set; }
+        public string ValorAtual { get; set; }
 
         public Servico Servico { get; set; }
         public IEnumerable<Agendamento>? Agendamentos { get; set; }

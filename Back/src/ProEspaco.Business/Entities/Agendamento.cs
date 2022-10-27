@@ -16,12 +16,12 @@ namespace ProEspaco.Business.Entities
         public DateTime DataAgendamento { get; set; }
         public DateTime HorarioInicio { get; set; }
         public DateTime HorarioFim { get; set; }
-        public double ValorCobrado { get; set; }
+        public string ValorCobrado { get; set; }
+        public DateTime DataCriacao { get; set; }
         public EnumSituacao Situacao { get; set; }
 
         public Cliente Cliente { get; set; }
         public Servico Servico { get; set; }
         public ServicoSubtipo ServicoSubtipo { get; set; }
-        public ConsultaRealizada? ConsultaRealizada { get; set; }
     }
 }
