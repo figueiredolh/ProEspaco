@@ -9,7 +9,6 @@ namespace ProEspaco.Data.Mappings
         public void Configure(EntityTypeBuilder<Cliente> builder)
         {
             builder.Property(c => c.Nome).HasColumnType("varchar(30)").IsRequired();
-            builder.Property(c => c.Sobrenome).HasColumnType("varchar(30)").IsRequired();
             builder.Property(c => c.Telefone).HasColumnType("varchar(15)").IsRequired();
             builder.Property(c => c.Cep).HasColumnType("varchar(10)");
             builder.Property(c => c.Endereco).HasColumnType("varchar(150)");
