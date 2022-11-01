@@ -8,6 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using ProEspaco.Application.AppServices;
+using ProEspaco.Application.Helpers;
+using ProEspaco.Application.Interfaces;
 using ProEspaco.Business.Interfaces.Repository;
 using ProEspaco.Data.Context;
 using ProEspaco.Data.Repository;
@@ -34,6 +37,8 @@ namespace ProEspaco.API
             services.AddControllers();
             services.AddDbContext<ProEspacoContext>(options => options.UseSqlServer(Configuration.GetConnectionString("defaultDevelopment")));
             services.AddScoped<IClienteRepository, ClienteRepository>();
+            services.AddScoped<IClienteAppService, ClienteAppService>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProEspaco.API", Version = "v1" });
