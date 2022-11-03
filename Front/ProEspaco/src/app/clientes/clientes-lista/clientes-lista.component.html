@@ -1,0 +1,42 @@
+<app-nav [page]="'Clientes'"></app-nav>
+
+<main class="container content">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <input type="text" name="" id="search-cliente" placeholder="Buscar cliente">
+    <button class="btn-cadastro">Novo Cadastro</button>
+  </div>
+
+  <div class="info-cliente">
+      <div class="info-cliente-header">
+          <h3>Cliente A</h3>
+          <div>
+            <span>ID XXXX</span>
+            <span>
+              <a (click)="expandMenu(0)" aria-controls="collapse">{{titulo}}</a>
+            </span>
+          </div>
+      </div>
+      <div #listItem class="info-cliente-content collapsed">
+        <div>
+            <div>
+                <h4>Telefone</h4>
+                <span>(xx) xxxx-xxxx</span>
+            </div>
+            <span><a>Editar</a></span>
+        </div>
+        <div>
+            <div>
+                <h4>Endereço</h4>
+                <span>Rua xxxxxxxx</span>
+                <span>Bairro xxxxxxxx</span>
+                <span>xxxxxx-xx</span>
+            </div>
+            <span><a>Editar</a></span>
+        </div>
+        <div>
+            <h4>Histórico</h4>
+            <span><a>Visualizar</a></span>
+        </div>
+      </div>
+  </div>
+</main>

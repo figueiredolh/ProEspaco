@@ -1,0 +1,36 @@
+.navTop{
+  box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navTop-cliente h1{
+  font-weight: 400;
+  font-size: 1.125rem;
+  color: var(--purple);
+}
+
+.navTop-profile{
+  display: flex;
+  align-items: center;
+}
+
+.navTop-cliente{
+  padding: 2.5rem 3rem 1rem;
+}
+
+.navTop-profile div{
+  padding: 2rem;
+}
+
+.navTop-profile .navTop-profile-adm{
+  border-left: 1px solid #cecece;
+}
+
+.navTop-profile-adm{
+  display: flex;
+  align-items: center;
+}

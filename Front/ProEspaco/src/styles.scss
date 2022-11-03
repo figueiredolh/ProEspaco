@@ -1,0 +1,38 @@
+:root{
+  --pink-sidebar: #d1a3ca2e;
+  --pink-sidebar-icon: #9d79a4;
+  --purple: #4a204f;
+  --purple-hover: #29112c;
+  --content: #F5F5F5;
+}
+
+*{
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body, ul{
+  margin: 0;
+  padding: 0;
+}
+
+ul{
+  list-style: none;
+}
+
+h1{
+  margin: 0;
+}
+
+body{
+  margin-left: 280px;
+}
+
+.container{
+  padding: 3rem 13.8244rem 3rem 3rem;
+}
+
+.content{
+  background-color: var(--content);
+  height: calc(100vh - 6rem); /* teste */
+}

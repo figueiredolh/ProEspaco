@@ -1,0 +1,77 @@
+#search-cliente{
+  display: block;
+  width: 70%;
+  border: 1px solid var(--purple);
+  outline: none;
+  padding: 0.75rem;
+  border-radius: 20px;
+}
+
+.btn-cadastro{
+  background-color: var(--purple);
+  color: white;
+  padding: 1rem 3rem;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  /* margin: 50px 0; */ /* Teste */
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+}
+
+.btn-cadastro:hover{
+  background-color: var(--purple-hover);
+}
+
+.info-cliente{
+  border: 1px solid var(--purple);
+  margin: 0.625rem 0;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.info-cliente-header div{
+  display: flex;
+}
+
+.info-cliente-header a, .info-cliente-content a{
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.info-cliente-header a:hover, .info-cliente-content a:hover{
+  text-decoration: underline;
+}
+
+.info-cliente-header div span + span{
+  margin-left: 2rem;
+}
+
+.info-cliente h3, .info-cliente h4{
+  margin: 0;
+}
+
+.info-cliente .info-cliente-header, .info-cliente-content > div{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+}
+
+.info-cliente div + div{
+  border-top: 1px solid gray;
+  background-color: white;
+}
+
+.info-cliente-header{
+  background-color: var(--pink-sidebar);
+}
+
+.info-cliente span{
+  display: block;
+  font-size: 0.875rem;
+}
+
+.info-cliente-content.collapsed{
+  display: none;
+}
