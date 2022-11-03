@@ -1,3 +1,10 @@
+#search-btn{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
 #search-cliente{
   display: block;
   width: 70%;
@@ -25,7 +32,7 @@
 
 .info-cliente{
   border: 1px solid var(--purple);
-  margin: 0.625rem 0;
+  margin: 0.3125rem 0;
   border-radius: 20px;
   overflow: hidden;
 }
@@ -51,6 +58,14 @@
   margin: 0;
 }
 
+.info-cliente h3{
+  font-size: 0.875rem;
+}
+
+.info-cliente h4{
+  font-size: 0.75rem;
+}
+
 .info-cliente .info-cliente-header, .info-cliente-content > div{
   display: flex;
   align-items: center;
@@ -72,6 +87,20 @@
   font-size: 0.875rem;
 }
 
+.info-cliente-content{
+  animation: animationCollapse .4s linear;
+}
+
 .info-cliente-content.collapsed{
   display: none;
 }
+
+@keyframes animationCollapse {
+  from{
+    max-height: 0;
+  }
+  to{
+    max-height: 300px;
+  }
+}
+

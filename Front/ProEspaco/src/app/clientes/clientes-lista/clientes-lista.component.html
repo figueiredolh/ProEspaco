@@ -1,18 +1,20 @@
 <app-nav [page]="'Clientes'"></app-nav>
 
 <main class="container content">
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <div id="search-btn">
     <input type="text" name="" id="search-cliente" placeholder="Buscar cliente">
     <button class="btn-cadastro">Novo Cadastro</button>
   </div>
 
-  <div class="info-cliente">
+  <div style="font-size: 0.875rem; margin: 0.875rem 0">Número de resultados: {{clientes.length}}</div>
+  <div *ngFor="let cliente of clientes; let i = index">
+    <div class="info-cliente">
       <div class="info-cliente-header">
-          <h3>Cliente A</h3>
+          <h3>{{cliente.nome}}</h3>
           <div>
-            <span>ID XXXX</span>
+            <span>ID {{cliente.id}}</span>
             <span>
-              <a (click)="expandMenu(0)" aria-controls="collapse">{{titulo}}</a>
+              <a (click)="expandMenu(i)" aria-controls="collapse">{{titulo}}</a>
             </span>
           </div>
       </div>
@@ -20,16 +22,16 @@
         <div>
             <div>
                 <h4>Telefone</h4>
-                <span>(xx) xxxx-xxxx</span>
+                <span>{{cliente.telefone}}</span>
             </div>
             <span><a>Editar</a></span>
         </div>
         <div>
             <div>
                 <h4>Endereço</h4>
-                <span>Rua xxxxxxxx</span>
-                <span>Bairro xxxxxxxx</span>
-                <span>xxxxxx-xx</span>
+                <span>{{cliente.endereco}}</span>
+                <span>{{cliente.bairro}}</span>
+                <span>{{cliente.cep}}</span>
             </div>
             <span><a>Editar</a></span>
         </div>
@@ -38,5 +40,6 @@
             <span><a>Visualizar</a></span>
         </div>
       </div>
+    </div>
   </div>
 </main>
