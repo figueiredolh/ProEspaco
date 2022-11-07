@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ClientesComponent } from 'src/app/clientes/clientes.component';
+import { ClientesHomeComponent } from 'src/app/clientes-home/clientes-home.component';
 
 @Component({
   selector: 'app-nav',
