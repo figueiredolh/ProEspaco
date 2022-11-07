@@ -1,0 +1,80 @@
+<app-nav [page]="'Clientes'"></app-nav>
+
+<main class="container content">
+  <div id="search-btn">
+    <input type="text" name="" id="search-cliente" placeholder="Buscar cliente" [(ngModel)]="filtro">
+    <button class="btn-cadastro" routerLink="/clientes/cadastro">Novo Cadastro</button>
+  </div>
+
+  <div style="font-size: 0.875rem; margin: 0.875rem 0">Número de resultados: {{clientesFiltrados.length}}</div>
+
+  <div style="margin-top: 6rem;" *ngIf="clientesFiltrados.length == 0 && filtro.length > 0 && !errorMessage">
+    <h2>Cliente não encontrado</h2>
+    <p style="font-family: 'Open Sans', sans-serif;">Verifique se digitou o nome corretamente ou se ele está cadastrado</p>
+  </div>
+
+  <div style="margin-top: 6rem;" *ngIf="errorMessage">
+    <h2>Erro ao carregar clientes</h2>
+    <p style="font-family: 'Open Sans', sans-serif;">Não foi possível o carregamento dos dados</p>
+  </div>
+
+  <div *ngIf="clientesFiltrados.length > 0">
+    <div *ngFor="let cliente of clientesFiltrados; let i = index">
+      <div class="info-cliente">
+        <div class="info-cliente-header">
+            <h3>{{cliente.nome}}</h3>
+            <div>
+              <span style="font-weight: bold;">ID {{cliente.id}}</span>
+              <span>
+                <a (click)="expandDetails(i)" aria-controls="collapse">{{titulo}}</a>
+              </span>
+              <span>
+                <a>Editar</a>
+              </span>
+              <span style="margin-left: 0.625rem;">
+                <a (click)="openModal(modalTemplate)">Excluir</a>
+              </span>
+            </div>
+        </div>
+        <div #listItem class="info-cliente-content collapsed">
+          <div>
+              <div>
+                  <h4>Telefone</h4>
+                  <span>{{cliente.telefone}}</span>
+              </div>
+              <span><a>Editar</a></span>
+          </div>
+          <div>
+              <div>
+                  <h4>Endereço</h4>
+                  <span>{{cliente.endereco}}</span>
+                  <span>{{cliente.bairro}}</span>
+                  <span>{{cliente.cep}}</span>
+              </div>
+              <span><a>Editar</a></span>
+          </div>
+          <div>
+              <h4>Histórico</h4>
+              <span><a>Visualizar</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Modal -->
+
+<ng-template #modalTemplate>
+  <div class="modal">
+    <div class="modal-area">
+      <div class="modal-area-content">
+        <p>Você deseja realmente excluir o cliente X?</p>
+        <div>
+          <button class="accept" (click)="confirm()">Sim</button>
+          <button class="decline" (click)="decline()">Não</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

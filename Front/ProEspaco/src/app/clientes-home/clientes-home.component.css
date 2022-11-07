@@ -21,9 +21,9 @@
   border-radius: 20px;
   outline: none;
   border: none;
-  /* margin: 50px 0; */ /* Teste */
   cursor: pointer;
   transition: all .3s ease-in-out;
+  font-size: 0.875rem;
 }
 
 .btn-cadastro:hover{
@@ -59,11 +59,11 @@
 }
 
 .info-cliente h3{
-  font-size: 0.875rem;
+  font-size: 1.125rem;
 }
 
 .info-cliente h4{
-  font-size: 0.75rem;
+  font-size: 1rem;
 }
 
 .info-cliente .info-cliente-header, .info-cliente-content > div{
@@ -97,10 +97,73 @@
 
 @keyframes animationCollapse {
   from{
+    opacity: 0;
     max-height: 0;
   }
   to{
-    max-height: 300px;
+    opacity: 1;
+    max-height: 500px;
   }
 }
 
+/* Modal */
+
+.modal{
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-area{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25vw;
+  height: 20vh;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 1.25rem;
+}
+
+.modal-area-content p{
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.modal-area-content div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-area-content button{
+  margin: 0 0.625rem;
+  border: none;
+  outline: none;
+  padding: 0.625rem 1.375rem;
+  cursor: pointer;
+  color: white;
+  border-radius: 1.25rem;
+}
+
+.modal-area-content button.accept{
+  background-color: #28a745;
+}
+
+.modal-area-content button.accept:hover{
+  background-color: #25963f;
+}
+
+.modal-area-content button.decline{
+  background-color: #dc3545;
+}
+
+.modal-area-content button.decline:hover{
+  background-color: #b32c3a;
+}
