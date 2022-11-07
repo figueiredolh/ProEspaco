@@ -1,0 +1,67 @@
+<app-nav [page]="'Clientes > Cadastro'"></app-nav>
+
+<main class="container content">
+  <form id="form-cliente" [formGroup]="form">
+    <span>*preenchimento obrigatório</span>
+    <div class="form-group-cliente">
+      <label for="input-cliente-nome">Nome Completo*</label>
+      <input ValidationBorder class="input-cliente" formControlName="nome" placeholder="Ex: Fulano da Silva">
+    </div>
+    <div class="validation-feedback" [style.visibility]="feedbackVisibility(f.nome)">
+      <div class="validation-feedback-separator"></div>
+      <div class="validation-feedback-content">
+        {{f.nome.errors?.required ? "O campo Nome é obrigatório": "O campo Nome permite até 40 caracteres"}}
+      </div>
+    </div>
+
+    <div class="form-group-cliente">
+      <label for="input-cliente-telefone">Telefone*</label>
+      <input ValidationBorder class="input-cliente" type="text" id="input-cliente-telefone" placeholder="Ex: (91) 99999-9999" formControlName="telefone" mask="(00) 00000-0000">
+    </div>
+    <div class="validation-feedback" [style.visibility]="feedbackVisibility(f.telefone)">
+      <div class="validation-feedback-separator"></div>
+      <div class="validation-feedback-content">
+        {{f.telefone.errors?.required ? "O campo Telefone é obrigatório": "O campo Telefone está no formato incorreto"}}
+      </div>
+    </div>
+
+    <div class="form-group-cliente">
+      <label for="input-cliente-cpf">CPF</label>
+      <input ValidationBorder class="input-cliente" type="text" id="input-cliente-cpf" placeholder="Ex: 123.456.789-00" formControlName="cpf" mask="000.000.000-00">
+    </div>
+    <div class="validation-feedback" [style.visibility]="feedbackVisibility(f.cpf)">
+      <div class="validation-feedback-separator"></div>
+      <div class="validation-feedback-content">O campo CPF está no formato incorreto</div>
+    </div>
+
+    <div class="form-group-cliente">
+      <label for="input-cliente-cep">CEP</label>
+      <input ValidationBorder class="input-cliente" type="text" id="input-cliente-cep" placeholder="Ex: 66820-120" formControlName="cep" mask="00000-000">
+    </div>
+    <div class="validation-feedback" [style.visibility]="feedbackVisibility(f.cep)">
+      <div class="validation-feedback-separator"></div>
+      <div class="validation-feedback-content">O campo CEP está no formato incorreto</div>
+    </div>
+
+    <div class="form-group-cliente">
+      <label for="input-cliente-endereco">Endereço</label>
+      <input ValidationBorder class="input-cliente" type="text" id="input-cliente-endereco" placeholder="Ex: Rua Lauro Sodré, 1" formControlName="endereco">
+    </div>
+    <div class="validation-feedback" [style.visibility]="feedbackVisibility(f.endereco)">
+      <div class="validation-feedback-separator"></div>
+      <div class="validation-feedback-content">O campo Endereço permite até 40 caracteres</div>
+    </div>
+
+    <div class="form-group-cliente">
+      <label for="input-cliente-bairro">Bairro</label>
+      <input ValidationBorder class="input-cliente" type="text" id="input-cliente-bairro" placeholder="Ex: Centro" formControlName="bairro">
+    </div>
+    <div class="validation-feedback" [style.visibility]="feedbackVisibility(f.bairro)">
+      <div class="validation-feedback-separator"></div>
+      <div class="validation-feedback-content">O campo Bairro permite até 40 caracteres</div>
+    </div>
+
+    <button class="btn-cadastro" [disabled]="!form.valid">Cadastrar</button>
+  </form>
+</main>
+
