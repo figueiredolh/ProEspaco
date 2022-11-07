@@ -39,6 +39,7 @@ namespace ProEspaco.API
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IClienteAppService, ClienteAppService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProEspaco.API", Version = "v1" });
@@ -58,6 +59,8 @@ namespace ProEspaco.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
             app.UseAuthorization();
 
