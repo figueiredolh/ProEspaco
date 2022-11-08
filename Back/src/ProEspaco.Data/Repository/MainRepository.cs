@@ -9,7 +9,7 @@ using ProEspaco.Data.Context;
 
 namespace ProEspaco.Data.Repository
 {
-    public class MainRepository<T> : IMainRepository<T> where T : class
+    public abstract class MainRepository<T> : IMainRepository<T> where T : class
     {
         protected readonly ProEspacoContext context;
         protected readonly DbSet<T> dbSetGeneric;
