@@ -10,12 +10,16 @@ import { Cliente } from 'src/models/Cliente';
 @Injectable()
 export class ClienteService {
 
-constructor(private client: HttpClient) { }
+  constructor(private client: HttpClient) { }
 
-public baseUrl: string = "https://localhost:5001/api";
+  public baseUrl: string = "https://localhost:5001/api";
 
-public getClientes(): Observable<Cliente[]>{
-  return this.client.get<Cliente[]>(`${this.baseUrl}/clientes`);
-}
+  public getClientes(): Observable<Cliente[]>{
+    return this.client.get<Cliente[]>(`${this.baseUrl}/clientes`);
+  }
+
+  public deleteCliente(id: number){
+    return this.client.delete(`${this.baseUrl}/clientes/${id}`);
+  }
 
 }

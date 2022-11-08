@@ -20,6 +20,7 @@ import { ClientesCadastroComponent } from './clientes-cadastro/clientes-cadastro
 import { ValidationBorderDirective } from 'src/shared/validation-border-directive/validation-border.directive';
 import { NgxMaskModule } from 'ngx-mask';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
       dropSpecialCharacters: false
     }),
     ModalModule.forRoot(),
+    ToastrModule.forRoot({
+      preventDuplicates: true
+    }),
   ],
   providers: [ClienteService],
   bootstrap: [AppComponent]

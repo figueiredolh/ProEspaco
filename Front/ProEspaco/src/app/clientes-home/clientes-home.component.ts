@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, QueryList, TemplateRef, ViewChildren } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 import { Cliente } from 'src/models/Cliente';
 import { ClienteService } from 'src/services/Cliente.service';
 
@@ -10,7 +11,7 @@ import { ClienteService } from 'src/services/Cliente.service';
 })
 export class ClientesHomeComponent implements OnInit {
 
-  constructor(private clienteService: ClienteService, private modalService: BsModalService) { }
+  constructor(private clienteService: ClienteService, private modalService: BsModalService, private toastr: ToastrService) { }
 
   @ViewChildren('listItem')
   public listItems!: QueryList<ElementRef<HTMLDivElement>>
@@ -19,10 +20,10 @@ export class ClientesHomeComponent implements OnInit {
   }
 
   public ModalRef?: BsModalRef;
-  public eventoId?: number;
+  public clienteId?: number;
+  public clienteNome?: string;
 
-  public titulo: string = 'Ver Detalhes';
-  public collapsed: boolean = true;
+  public collapsed: any = [];
 
   public clientes: Cliente[] = [];
   public clientesFiltrados: Cliente[] = [];
@@ -35,9 +36,31 @@ export class ClientesHomeComponent implements OnInit {
   public set filtro(value: string){
     this._filtro = value;
     this.clientesFiltrados = this._filtro ? this.filtrarClientes(): [];
+    this.setAllStatusCollapsed(true);
   }
 
   public errorMessage: boolean = false;
+
+  private toastConfig: any = {
+    timeOut: 3000,
+    closeButton: true,
+    progressBar: true,
+    positionClass: 'toast-bottom-right',
+  };
+
+  setAllStatusCollapsed(fromFiltro: boolean = false): void{
+    this.collapsed = this.clientesFiltrados.map(() => {
+      return {statusCollapsed: true};
+    });
+
+    if(fromFiltro){
+      this.listItems.forEach(item => {
+        if(!item.nativeElement.classList.contains('collapsed')){
+          item.nativeElement.classList.add('collapsed');
+        }
+      });
+    }
+  }
 
   filtrarClientes(): Cliente[]{
     let clientesFiltrados = this.clientes.filter(cliente => {
@@ -58,24 +81,41 @@ export class ClientesHomeComponent implements OnInit {
     }
 
     currentItem?.classList.toggle('collapsed');
-    this.setStatusCollapse();
-    this.setNameTitulo();
+    this.setIndexStatusCollapsed(index);
   }
 
-  setNameTitulo(): void{
-    this.titulo = this.collapsed ? 'Ver Detalhes' : 'Fechar';
+  setIndexStatusCollapsed(index: number): void{
+    if(this.collapsed[index].statusCollapsed){
+      this.setAllStatusCollapsed();
+    }
+    this.collapsed[index].statusCollapsed = !this.collapsed[index].statusCollapsed;
   }
 
-  setStatusCollapse(): void{
-    this.collapsed = !this.collapsed;
-  }
-
-  openModal(template: TemplateRef<any>): void{
+  openModal(clienteNome: string, clienteId: number, template: TemplateRef<any>): void{
+    this.clienteNome = clienteNome;
+    this.clienteId = clienteId;
     this.ModalRef = this.modalService.show(template);
   }
 
   confirm(): void{
     this.ModalRef?.hide();
+    if(this.clienteId != null){
+      this.clienteService.deleteCliente(this.clienteId).subscribe({
+        next: (messageObject: any) => {
+          if(messageObject != null && messageObject.message == 'Deletado'){
+            console.log(messageObject);
+            this.toastr.success('Cliente excluído com sucesso', 'Êxito!', this.toastConfig);
+          }
+        },
+        error: (error: any) => {
+          console.log(error);
+          this.toastr.error('Cliente não pôde ser deletado', 'Falha!', this.toastConfig);
+        },
+        complete: () => {
+          this.getClientes();
+        }
+      });
+    }
   }
 
   decline(): void{
@@ -86,6 +126,7 @@ export class ClientesHomeComponent implements OnInit {
     this.clienteService.getClientes().subscribe({
       next: (clientes: Cliente[]) => {
         this.clientes = [... clientes];
+        this.clientesFiltrados = this._filtro ? this.filtrarClientes(): [];
       },
       error: (error) => {
         this.errorMessage = true;

@@ -110,10 +110,10 @@ namespace ProEspaco.API.Controllers
 
                 if (cliente == null)
                 {
-                    return NoContent();
+                    return NotFound("Cliente não pode ser encontrado");
                 }
 
-                return Ok("Cliente deletado com sucesso");
+                return Ok(new { message = "Deletado" });
             }
             catch (Exception ex)
             {

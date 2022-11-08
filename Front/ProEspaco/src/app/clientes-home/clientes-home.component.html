@@ -26,13 +26,15 @@
             <div>
               <span style="font-weight: bold;">ID {{cliente.id}}</span>
               <span>
-                <a (click)="expandDetails(i)" aria-controls="collapse">{{titulo}}</a>
+                <a (click)="expandDetails(i)" aria-controls="collapse">
+                  {{collapsed[i].statusCollapsed ? 'Ver Detalhes' : 'Fechar'}}
+                </a>
               </span>
               <span>
                 <a>Editar</a>
               </span>
               <span style="margin-left: 0.625rem;">
-                <a (click)="openModal(modalTemplate)">Excluir</a>
+                <a (click)="openModal(cliente.nome, cliente.id, modalTemplate)">Excluir</a>
               </span>
             </div>
         </div>
@@ -69,7 +71,7 @@
   <div class="modal">
     <div class="modal-area">
       <div class="modal-area-content">
-        <p>Você deseja realmente excluir o cliente X?</p>
+        <p>Você deseja realmente excluir {{clienteNome}}?</p>
         <div>
           <button class="accept" (click)="confirm()">Sim</button>
           <button class="decline" (click)="decline()">Não</button>
