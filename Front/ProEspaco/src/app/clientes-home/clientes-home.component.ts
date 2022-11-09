@@ -11,7 +11,7 @@ import { ClienteService } from 'src/services/Cliente.service';
 })
 export class ClientesHomeComponent implements OnInit {
 
-  constructor(private clienteService: ClienteService, private modalService: BsModalService, private toastr: ToastrService) { }
+  constructor(private clienteService: ClienteService, private modalService: BsModalService, private toastrService: ToastrService) { }
 
   @ViewChildren('listItem')
   public listItems!: QueryList<ElementRef<HTMLDivElement>>
@@ -97,6 +97,22 @@ export class ClientesHomeComponent implements OnInit {
     this.ModalRef = this.modalService.show(template);
   }
 
+  getClientes(): void{
+    this.clienteService.getClientes().subscribe({
+      next: (clientes: Cliente[]) => {
+        this.clientes = [... clientes];
+        this.clientesFiltrados = this._filtro ? this.filtrarClientes(): [];
+      },
+      error: () => {
+        this.errorMessage = true;
+      },
+      complete: () => {
+        console.log("Carregado com sucesso"); //teste
+        console.log(this.clientes); //teste
+      }
+    });
+  }
+
   confirm(): void{
     this.ModalRef?.hide();
     if(this.clienteId != null){
@@ -104,12 +120,12 @@ export class ClientesHomeComponent implements OnInit {
         next: (messageObject: any) => {
           if(messageObject != null && messageObject.message == 'Deletado'){
             console.log(messageObject);
-            this.toastr.success('Cliente excluído com sucesso', 'Êxito!', this.toastConfig);
+            this.toastrService.success('Cliente excluído com sucesso', 'Êxito!', this.toastConfig);
           }
         },
         error: (error: any) => {
           console.log(error);
-          this.toastr.error('Cliente não pôde ser deletado', 'Falha!', this.toastConfig);
+          this.toastrService.error('Cliente não pôde ser deletado', 'Falha!', this.toastConfig);
         },
         complete: () => {
           this.getClientes();
@@ -120,22 +136,6 @@ export class ClientesHomeComponent implements OnInit {
 
   decline(): void{
     this.ModalRef?.hide();
-  }
-
-  getClientes(): void{
-    this.clienteService.getClientes().subscribe({
-      next: (clientes: Cliente[]) => {
-        this.clientes = [... clientes];
-        this.clientesFiltrados = this._filtro ? this.filtrarClientes(): [];
-      },
-      error: (error) => {
-        this.errorMessage = true;
-      },
-      complete: () => {
-        console.log("Carregado com sucesso"); //teste
-        console.log(this.clientes); //teste
-      }
-    });
   }
 
   ngOnInit() {

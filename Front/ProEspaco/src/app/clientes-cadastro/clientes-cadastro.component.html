@@ -61,7 +61,7 @@
       <div class="validation-feedback-content">O campo Bairro permite até 40 caracteres</div>
     </div>
 
-    <button class="btn-cadastro" [disabled]="!form.valid">Cadastrar</button>
+    <button class="btn-cadastro" [disabled]="!form.valid" (click)="saveChanges()">Cadastrar</button>
   </form>
 </main>
 
