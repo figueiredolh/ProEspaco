@@ -18,11 +18,24 @@
     <p style="font-family: 'Open Sans', sans-serif;">Não foi possível o carregamento dos dados</p>
   </div>
 
-  <div *ngIf="clientesFiltrados.length > 0">
+  <div *ngIf="clientesFiltrados.length > 0" [formGroup]="formUpdate">
     <div *ngFor="let cliente of clientesFiltrados; let i = index">
-      <div class="info-cliente">
+      <div class="info-cliente"> <!-- form group -->
         <div class="info-cliente-header">
+          <div class="nome-content-text">
             <h3>{{cliente.nome}}</h3>
+          </div>
+          <div class="nome-content-text-edit no-edit">
+            <input ValidationBorder type="text" formControlName="nome">
+            <div>
+              <button style="background-color: var(--accept);">
+                <i class="fa-solid fa-check"></i>
+              </button>
+              <button style="background-color: var(--decline);">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          </div>
             <div>
               <span style="font-weight: bold;">ID {{cliente.id}}</span>
               <span>
@@ -38,22 +51,54 @@
               </span>
             </div>
         </div>
-        <div #listItem class="info-cliente-content collapsed">
-          <div>
-              <div>
-                  <h4>Telefone</h4>
-                  <span>{{cliente.telefone}}</span>
+        <div #listContentItem class="info-cliente-content collapsed">
+          <div class="telefone">
+            <div class="telefone-content">
+              <h4>Telefone</h4>
+              <div class="telefone-content-text">
+                <span>{{cliente.telefone}}</span>
               </div>
-              <span><a>Editar</a></span>
+              <div class="telefone-content-text-edit no-edit"> <!-- Colocar Tooltip -->
+                <input ValidationBorder type="text" formControlName="telefone" mask="(00) 00000-0000">
+                <div>
+                  <button style="background-color: var(--accept);" (click)="updateCliente(i)">
+                    <i class="fa-solid fa-check"></i>
+                  </button>
+                  <button style="background-color: var(--decline);" (click)="telefoneEditSwitch(cliente.id, i)">
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <span><a (click)="telefoneEditSwitch(cliente.id, i)">Editar</a></span>
           </div>
-          <div>
-              <div>
-                  <h4>Endereço</h4>
-                  <span>{{cliente.endereco}}</span>
-                  <span>{{cliente.bairro}}</span>
-                  <span>{{cliente.cep}}</span>
+          <div class="endereco">
+            <div class="endereco-content">
+              <h4>Endereço</h4>
+              <div class="endereco-content-text">
+                <span>{{cliente.endereco}}</span>
+                <span>{{cliente.bairro}}</span>
+                <span>{{cliente.cep}}</span>
+                <span>{{cliente.cidade}}</span>
               </div>
-              <span><a>Editar</a></span>
+              <div class="endereco-content-text-edit no-edit"> <!-- Colocar Tooltip -->
+                <div>
+                  <input type="text" formControlName="endereco">
+                  <input type="text" formControlName="bairro">
+                  <input ValidationBorder type="text" formControlName="cep" mask="00000-000">
+                  <input type="text" formControlName="cidade">
+                </div>
+                <div>
+                  <button style="background-color: var(--accept);" (click)="updateCliente(i)">
+                    <i class="fa-solid fa-check"></i>
+                  </button>
+                  <button style="background-color: var(--decline);" (click)="enderecoEditSwitch(cliente.id, i)">
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <span><a (click)="enderecoEditSwitch(cliente.id, i)">Editar</a></span>
           </div>
           <div>
               <h4>Histórico</h4>

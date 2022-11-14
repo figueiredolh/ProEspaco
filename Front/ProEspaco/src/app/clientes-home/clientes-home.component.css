@@ -73,7 +73,7 @@
   padding: 0.75rem;
 }
 
-.info-cliente div + div{
+.info-cliente-content > div{
   border-top: 1px solid gray;
   background-color: white;
 }
@@ -104,6 +104,39 @@
     opacity: 1;
     max-height: 500px;
   }
+}
+
+/* Editar */
+
+.no-edit{
+  display: none !important;
+}
+
+.telefone-content-text-edit button, .endereco-content-text-edit button{
+  border: none;
+  border-radius: 0.3125rem;
+  outline: none;
+  padding: 0 0.3125rem;
+  width: 1.875rem;
+  cursor: pointer;
+  color: white;
+}
+
+.telefone-content-text-edit button:hover, .endereco-content-text-edit button:hover{
+  transform: scale(1.02);
+}
+
+.telefone-content-text-edit button + button, .endereco-content-text-edit button + button{
+  margin-left: 0.3125rem;
+}
+
+.telefone-content-text-edit input, .endereco-content-text-edit input{
+  margin-bottom: 0.3125rem;
+  outline: none;
+}
+
+.endereco-content-text-edit input{
+  display: block;
 }
 
 /* Modal */
@@ -154,17 +187,17 @@
 }
 
 .modal-area-content button.accept{
-  background-color: #28a745;
+  background-color: var(--accept);
 }
 
 .modal-area-content button.accept:hover{
-  background-color: #25963f;
+  background-color: var(--accept-hover);
 }
 
 .modal-area-content button.decline{
-  background-color: #dc3545;
+  background-color: var(--decline);
 }
 
 .modal-area-content button.decline:hover{
-  background-color: #b32c3a;
+  background-color: var(--decline-hover);
 }

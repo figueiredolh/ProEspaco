@@ -36,7 +36,7 @@
 
     <div class="form-group-cliente">
       <label for="input-cliente-cep">CEP</label>
-      <input ValidationBorder class="input-cliente" type="text" id="input-cliente-cep" placeholder="Ex: 66820-120" formControlName="cep" mask="00000-000">
+      <input ValidationBorder class="input-cliente" type="text" id="input-cliente-cep" placeholder="Ex: 66820-120" formControlName="cep" mask="00000-000" (input)="getCep(f.cep)">
     </div>
     <div class="validation-feedback" [style.visibility]="feedbackVisibility(f.cep)">
       <div class="validation-feedback-separator"></div>
@@ -59,6 +59,15 @@
     <div class="validation-feedback" [style.visibility]="feedbackVisibility(f.bairro)">
       <div class="validation-feedback-separator"></div>
       <div class="validation-feedback-content">O campo Bairro permite até 40 caracteres</div>
+    </div>
+
+    <div class="form-group-cliente">
+      <label for="input-cliente-cidade">Cidade</label>
+      <input ValidationBorder class="input-cliente" type="text" id="input-cliente-cidade" placeholder="Ex: Belém" formControlName="cidade">
+    </div>
+    <div class="validation-feedback" [style.visibility]="feedbackVisibility(f.cidade)">
+      <div class="validation-feedback-separator"></div>
+      <div class="validation-feedback-content">O campo Cidade permite até 40 caracteres</div>
     </div>
 
     <button class="btn-cadastro" [disabled]="!form.valid" (click)="saveChanges()">Cadastrar</button>

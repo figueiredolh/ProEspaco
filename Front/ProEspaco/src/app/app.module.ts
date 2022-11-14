@@ -21,6 +21,7 @@ import { ValidationBorderDirective } from 'src/shared/validation-border-directiv
 import { NgxMaskModule } from 'ngx-mask';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
+import { CepService } from 'src/services/cepService/Cep.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,7 @@ import { ToastrModule } from 'ngx-toastr';
       preventDuplicates: true
     }),
   ],
-  providers: [ClienteService],
+  providers: [ClienteService, CepService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

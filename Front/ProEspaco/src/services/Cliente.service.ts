@@ -22,6 +22,10 @@ export class ClienteService {
     return this.client.post<Cliente>(`${this.baseUrl}/clientes`, cliente);
   }
 
+  public putCliente(cliente: Cliente): Observable<Cliente>{
+    return this.client.put<Cliente>(`${this.baseUrl}/clientes/${cliente.id}`, cliente);
+  }
+
   public deleteCliente(id: number){
     return this.client.delete(`${this.baseUrl}/clientes/${id}`);
   }

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { ExtractCepNumbers } from 'src/helpers/extractCepNumbers';
 import { Cliente } from 'src/models/Cliente';
+import { CepService } from 'src/services/cepService/Cep.service';
 import { ClienteService } from 'src/services/Cliente.service';
 
 @Component({
@@ -11,7 +13,8 @@ import { ClienteService } from 'src/services/Cliente.service';
 })
 export class ClientesCadastroComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private clienteService: ClienteService, private toastrService: ToastrService) { }
+  constructor(private formBuilder: FormBuilder, private clienteService: ClienteService, private toastrService: ToastrService,
+              private cepService: CepService) { }
 
   public cliente!: Cliente;
   public form!: FormGroup;
@@ -27,6 +30,8 @@ export class ClientesCadastroComponent implements OnInit {
     positionClass: 'toast-bottom-right',
   };
 
+  public lastCep?: string;
+
   public formGroup(): void{
     this.form = this.formBuilder.group({
       nome: ['', [Validators.required, Validators.maxLength(40)]],
@@ -35,6 +40,7 @@ export class ClientesCadastroComponent implements OnInit {
       cep: ['', [Validators.minLength(9), Validators.maxLength(9)]], //pattern
       endereco: ['', [Validators.maxLength(40)]],
       bairro: ['', [Validators.maxLength(40)]],
+      cidade: ['', [Validators.maxLength(40)]],
     });
   }
 
@@ -56,6 +62,31 @@ export class ClientesCadastroComponent implements OnInit {
         }
       });
     }
+  }
+
+  public getCep(cepControl: AbstractControl){
+    if(!cepControl.valid || cepControl.value.length == 0){
+      this.lastCep = '';
+      return;
+    }
+
+    let cepOnlyNumbers = ExtractCepNumbers.extractNumbers(cepControl.value);
+
+    if(cepControl.valid && this.lastCep === cepOnlyNumbers){
+      return;
+    }
+
+    this.cepService.getCep(cepOnlyNumbers).subscribe({
+      next: (infoCep: any) => {
+        this.f.endereco.patchValue(infoCep.logradouro);
+        this.f.bairro.patchValue(infoCep.bairro);
+        this.f.cidade.patchValue(infoCep.localidade);
+        this.lastCep = cepOnlyNumbers;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
   ngOnInit() {

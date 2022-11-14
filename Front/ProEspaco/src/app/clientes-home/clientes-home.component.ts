@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, QueryList, TemplateRef, ViewChildren } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Cliente } from 'src/models/Cliente';
@@ -11,12 +12,18 @@ import { ClienteService } from 'src/services/Cliente.service';
 })
 export class ClientesHomeComponent implements OnInit {
 
-  constructor(private clienteService: ClienteService, private modalService: BsModalService, private toastrService: ToastrService) { }
+  constructor(private clienteService: ClienteService, private modalService: BsModalService,
+              private toastrService: ToastrService, private formBuilder: FormBuilder) { }
 
-  @ViewChildren('listItem')
-  public listItems!: QueryList<ElementRef<HTMLDivElement>>
+  @ViewChildren('listContentItem')
+  public listContentItems!: QueryList<ElementRef<HTMLDivElement>>
 
   public ngAfterViewInit() {
+  }
+
+  ngOnInit() {
+    this.getClientes();
+    this.formGroup();
   }
 
   public ModalRef?: BsModalRef;
@@ -54,7 +61,7 @@ export class ClientesHomeComponent implements OnInit {
     });
 
     if(fromFiltro){
-      this.listItems.forEach(item => {
+      this.listContentItems.forEach(item => {
         if(!item.nativeElement.classList.contains('collapsed')){
           item.nativeElement.classList.add('collapsed');
         }
@@ -70,17 +77,17 @@ export class ClientesHomeComponent implements OnInit {
   }
 
   expandDetails(index: number): void{
-    let currentItem = this.listItems.get(index)?.nativeElement;
+    let currentDiv = this.listContentItems.get(index)?.nativeElement;
 
-    if(this.listItems.length > 1){
-      this.listItems.forEach(item => {
-        if(item.nativeElement != currentItem){
+    if(this.listContentItems.length > 1){
+      this.listContentItems.forEach(item => {
+        if(item.nativeElement != currentDiv){
           item.nativeElement.classList.add('collapsed');
         }
       });
     }
 
-    currentItem?.classList.toggle('collapsed');
+    currentDiv?.classList.toggle('collapsed');
     this.setIndexStatusCollapsed(index);
   }
 
@@ -129,6 +136,7 @@ export class ClientesHomeComponent implements OnInit {
         },
         complete: () => {
           this.getClientes();
+          this.setAllStatusCollapsed(true);
         }
       });
     }
@@ -138,8 +146,85 @@ export class ClientesHomeComponent implements OnInit {
     this.ModalRef?.hide();
   }
 
-  ngOnInit() {
-    this.getClientes();
+  /* Form Control e Update */
+
+  public cliente!: Cliente;
+  public formUpdate!: FormGroup;
+
+  public get formControls(){
+    return this.formUpdate.controls;
   }
 
+  public getClienteToUpdate(id: number): Cliente{
+    let cliente = this.clientesFiltrados.filter((cliente)=>{
+      return cliente.id === id;
+    });
+
+    return cliente[0];
+  }
+
+  public clienteFormEditionSwitch(listItems: QueryList<ElementRef<HTMLDivElement>>, clienteId: number, index: number, divContent: string){
+    let currentDiv = listItems.get(index)?.nativeElement;
+    let divTextContent = currentDiv?.querySelector(divContent);
+    let divEditContent = divTextContent?.nextElementSibling;
+
+    if(divEditContent?.classList.contains('no-edit') || clienteId < 0 || !clienteId){
+      this.formUpdate.patchValue(this.getClienteToUpdate(clienteId));
+    }
+
+    divTextContent?.classList.toggle('no-edit');
+    divEditContent?.classList.toggle('no-edit');
+  }
+
+  public telefoneEditSwitch(clienteId: number, index: number): void{
+    this.clienteFormEditionSwitch(this.listContentItems, clienteId, index, '.telefone-content-text');
+  }
+
+  public enderecoEditSwitch(clienteId: number, index: number): void{
+    this.clienteFormEditionSwitch(this.listContentItems, clienteId, index, '.endereco-content-text');
+  }
+
+  public closeEditionAfterUpdate(index: number){
+    let currentDiv = this.listContentItems.get(index)?.nativeElement;
+    let divEditContent = currentDiv?.querySelectorAll('div[class$="text-edit"]');
+
+    divEditContent?.forEach((divEdit)=>{
+      let divTextContent = divEdit?.previousElementSibling;
+
+      divTextContent?.classList.remove('no-edit');
+      divEdit.classList.add('no-edit');
+    });
+  }
+
+  public updateCliente(index: number){
+    this.cliente = {... this.formUpdate.value}
+    console.log(this.cliente);
+    this.clienteService.putCliente(this.cliente).subscribe({
+      next: (cliente: Cliente) => {
+        console.log(cliente);
+        this.toastrService.success(`Cliente ${this.cliente.id} atualizado com sucesso`, 'Êxito!', this.toastConfig);
+      },
+      error: (error) => {
+        console.log(error);
+        this.toastrService.error(`Cliente ${this.cliente.id} não pôde ser atualizado`, 'Falha!', this.toastConfig);
+      },
+      complete: () => {
+        this.closeEditionAfterUpdate(index);
+        this.getClientes();
+        this.setAllStatusCollapsed(true);
+      }
+    });
+  }
+
+  public formGroup(): void{
+    this.formUpdate = this.formBuilder.group({
+      id: [''],
+      nome: ['', [Validators.required, Validators.maxLength(40)]],
+      telefone: ['', [Validators.required, Validators.minLength(15), Validators.maxLength(15)]], //pattern
+      cep: ['', [Validators.minLength(9), Validators.maxLength(9)]], //pattern
+      endereco: ['', [Validators.maxLength(40)]],
+      bairro: ['', [Validators.maxLength(40)]],
+      cidade: ['', [Validators.maxLength(40)]],
+    });
+  }
 }
